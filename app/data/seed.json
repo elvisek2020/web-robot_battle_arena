@@ -1,0 +1,159 @@
+{
+  "robots": [
+    {
+      "id": "r1",
+      "name": "Warrior",
+      "description": "Vyvážený bojovník s dobrými statistikami",
+      "hpMax": 700,
+      "armorPct": 0
+    },
+    {
+      "id": "r2",
+      "name": "Tank",
+      "description": "Pomalý, ale velmi odolný robot",
+      "hpMax": 1050,
+      "armorPct": 10
+    },
+    {
+      "id": "r3",
+      "name": "Scout",
+      "description": "Rychlý a obratný, ale křehký",
+      "hpMax": 490,
+      "armorPct": 0
+    },
+    {
+      "id": "r4",
+      "name": "Assassin",
+      "description": "Specialista na blízký boj",
+      "hpMax": 560,
+      "armorPct": 5
+    },
+    {
+      "id": "r5",
+      "name": "Berserker",
+      "description": "Agresivní bojovník s vysokým poškozením",
+      "hpMax": 630,
+      "armorPct": 0
+    },
+    {
+      "id": "r6",
+      "name": "Guardian",
+      "description": "Obranný robot s vysokou výdrží",
+      "hpMax": 910,
+      "armorPct": 15
+    },
+    {
+      "id": "r7",
+      "name": "Striker",
+      "description": "Rychlý útočník s průměrnou výdrží",
+      "hpMax": 595,
+      "armorPct": 3
+    },
+    {
+      "id": "r8",
+      "name": "Juggernaut",
+      "description": "Nejodolnější robot s maximální ochranou",
+      "hpMax": 1260,
+      "armorPct": 20
+    }
+  ],
+  "weapons": [
+    {
+      "id": "w1",
+      "name": "Plazmová puška",
+      "description": "Standardní zbraň s dobrým dosahem",
+      "range": 3,
+      "damage": 25,
+      "cooldownTurns": 0
+    },
+    {
+      "id": "w2",
+      "name": "Laserový meč",
+      "description": "Krátký dosah, ale vysoké poškození",
+      "range": 1,
+      "damage": 40,
+      "cooldownTurns": 0
+    },
+    {
+      "id": "w3",
+      "name": "Raketomet",
+      "description": "Dlouhý dosah, střední poškození",
+      "range": 5,
+      "damage": 30,
+      "cooldownTurns": 1
+    },
+    {
+      "id": "w4",
+      "name": "Plazmová dýka",
+      "description": "Velmi krátký dosah, vysoké poškození",
+      "range": 1,
+      "damage": 50,
+      "cooldownTurns": 0
+    },
+    {
+      "id": "w5",
+      "name": "Elektrošok",
+      "description": "Střední dosah, nízké poškození",
+      "range": 2,
+      "damage": 20,
+      "cooldownTurns": 0
+    },
+    {
+      "id": "w6",
+      "name": "Plazmový kanón",
+      "description": "Dlouhý dosah, vysoké poškození",
+      "range": 6,
+      "damage": 35,
+      "cooldownTurns": 1
+    },
+    {
+      "id": "w7",
+      "name": "Iontový paprsek",
+      "description": "Střední dosah, průměrné poškození",
+      "range": 4,
+      "damage": 28,
+      "cooldownTurns": 0
+    },
+    {
+      "id": "w8",
+      "name": "Teslův generátor",
+      "description": "Krátký dosah, velmi vysoké poškození",
+      "range": 2,
+      "damage": 45,
+      "cooldownTurns": 0
+    },
+    {
+      "id": "w9",
+      "name": "Fotonový luk",
+      "description": "Dlouhý dosah, průměrné poškození",
+      "range": 7,
+      "damage": 22,
+      "cooldownTurns": 0
+    },
+    {
+      "id": "w10",
+      "name": "Kvantový disruptor",
+      "description": "Střední dosah, vysoké poškození",
+      "range": 3,
+      "damage": 38,
+      "cooldownTurns": 1
+    },
+    {
+      "id": "w11",
+      "name": "Magnetická pěst",
+      "description": "Velmi krátký dosah, extrémní poškození",
+      "range": 1,
+      "damage": 60,
+      "cooldownTurns": 0
+    },
+    {
+      "id": "w12",
+      "name": "Paprsek smrti",
+      "description": "Dlouhý dosah, velmi vysoké poškození",
+      "range": 8,
+      "damage": 42,
+      "cooldownTurns": 2
+    }
+  ]
+}
+

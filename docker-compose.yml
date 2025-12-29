@@ -1,0 +1,18 @@
+services:
+  app:
+    # For local development, use build:
+    # For production (after git push), use: image: ghcr.io/elvisek2020/web-robot_battle_arena:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # image: ghcr.io/elvisek2020/web-robot_battle_arena:latest
+    container_name: robot-arena
+    hostname: robot-arena
+    restart: unless-stopped
+    ports:
+      - "80:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3

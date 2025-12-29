@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1080" height="720" viewBox="0 0 1080 720">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b1220"/>
+      <stop offset="100%" stop-color="#050814"/>
+    </linearGradient>
+
+    <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="1.2" fill="rgba(255,255,255,0.08)"/>
+      <circle cx="18" cy="14" r="1.0" fill="rgba(255,255,255,0.05)"/>
+    </pattern>
+
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+    </pattern>
+
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="6" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <style><![CDATA[
+      .bg { fill: url(#bgGrad); }
+      .dots { fill: url(#dots); }
+      .grid { fill: url(#grid); }
+
+      .border { fill:none; stroke:rgba(148,163,184,0.9); stroke-width:8; }
+      .inner { fill:none; stroke:rgba(148,163,184,0.18); stroke-width:2; }
+      .plate { fill:rgba(255,255,255,0.03); stroke:rgba(255,255,255,0.08); stroke-width:2; }
+
+      .spawnA { fill:rgba(59,130,246,0.12); stroke:rgba(59,130,246,0.35); stroke-width:3; }
+      .spawnB { fill:rgba(239,68,68,0.12); stroke:rgba(239,68,68,0.35); stroke-width:3; }
+
+      .obs { fill:rgba(15,23,42,0.85); stroke:rgba(148,163,184,0.25); stroke-width:3; }
+      .obsTop { fill:rgba(148,163,184,0.06); stroke:rgba(148,163,184,0.20); stroke-width:2; }
+
+      .trap { fill:none; stroke-width:4; stroke-linecap:round; stroke-linejoin:round; filter:url(#glow); }
+      .icon { fill:none; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; }
+
+      .fire { stroke:#fb923c; }
+      .saw { stroke:#22c55e; }
+      .hammer { stroke:#60a5fa; }
+      .crush { stroke:#a78bfa; }
+    ]]></style>
+  </defs>
+
+  <rect class="bg" width="1080" height="720"/>
+  <rect class="dots" width="1080" height="720"/>
+  <rect class="grid" width="1080" height="720"/>
+
+  <rect class="plate" x="18" y="18" width="1044" height="684" rx="22"/>
+  <rect class="inner" x="30" y="30" width="1020" height="660" rx="18"/>
+  <rect class="border" x="10" y="10" width="1060" height="700" rx="26"/>
+
+  <rect class="spawnA" x="60" y="540" width="120" height="120" rx="16"/>
+  <rect class="spawnB" x="900" y="60" width="120" height="120" rx="16"/>
+
+  <!-- obstacles -->
+  <g>
+    <g transform="translate(480,300)">
+      <rect class="obs" width="120" height="120" rx="18"/>
+      <rect class="obsTop" x="10" y="10" width="100" height="100" rx="14"/>
+    </g>
+    <g transform="translate(180,120)">
+      <rect class="obs" width="60" height="120" rx="18"/>
+      <rect class="obsTop" x="10" y="10" width="40" height="100" rx="14"/>
+    </g>
+    <g transform="translate(180,480)">
+      <rect class="obs" width="60" height="120" rx="18"/>
+      <rect class="obsTop" x="10" y="10" width="40" height="100" rx="14"/>
+    </g>
+    <g transform="translate(840,120)">
+      <rect class="obs" width="60" height="120" rx="18"/>
+      <rect class="obsTop" x="10" y="10" width="40" height="100" rx="14"/>
+    </g>
+    <g transform="translate(840,480)">
+      <rect class="obs" width="60" height="120" rx="18"/>
+      <rect class="obsTop" x="10" y="10" width="40" height="100" rx="14"/>
+    </g>
+  </g>
+
+  <!-- traps (NO flamer / long path) -->
+  <g id="traps">
+    <rect class="trap fire" x="600" y="60" width="300" height="60" rx="16"/>
+    <rect class="trap saw" x="60" y="240" width="60" height="300" rx="16"/>
+    <rect class="trap saw" x="300" y="600" width="360" height="60" rx="16"/>
+    <circle class="trap hammer" cx="810.0" cy="360" r="81.0"/>
+    <rect class="trap crush" x="360" y="180" width="180" height="120" rx="18"/>
+    <polygon class="trap crush" points="660,420 780,480 720,600 600,540"/>
+  </g>
+</svg>

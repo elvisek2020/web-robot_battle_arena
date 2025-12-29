@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Login Screen -->
+<div id="login-screen" class="screen">
+    <div class="box login-box">
+        <h2>Přihlášení</h2>
+        <input type="text" id="player-name" placeholder="Zadej své jméno" maxlength="20">
+        <button id="join-btn" class="btn-primary">Přihlásit</button>
+        <div id="login-error" class="error-message"></div>
+        <div id="version-info" class="version-info"></div>
+    </div>
+</div>
+
+<!-- Lobby Screen -->
+<div id="lobby-screen" class="screen hidden">
+    <div class="box lobby-box">
+        <h2>Lobby</h2>
+        <div id="lobby-status" class="status-message"></div>
+        <div id="players-list" class="players-list"></div>
+        
+        <div id="loadout-selection" class="loadout-selection">
+            <h3>Výběr robota a zbraně</h3>
+            <div class="loadout-row">
+                <div class="loadout-item">
+                    <label for="robot-select">Robot:</label>
+                    <div class="select-with-icon">
+                        <div class="robot-icon-container">
+                            <img id="robot-icon" src="" alt="" class="robot-icon" style="display: none;">
+                            <div id="robot-tooltip" class="tooltip"></div>
+                        </div>
+                        <select id="robot-select" class="select-box">
+                            <option value="">-- Vyber robota --</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="loadout-item">
+                    <label for="weapon-select">Zbraň:</label>
+                    <select id="weapon-select" class="select-box">
+                        <option value="">-- Vyber zbraň --</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div class="lobby-actions">
+            <button id="ready-btn" class="btn-primary" disabled>Připraven</button>
+            <button id="leave-btn" class="btn-secondary">Odejít</button>
+        </div>
+    </div>
+</div>
+
+<!-- Game Screen -->
+<div id="game-screen" class="screen hidden">
+    <!-- Player Info Row -->
+    <div class="players-info-row">
+        <div class="box player-info-box" id="player-a-info">
+            <img id="player-a-icon" src="" alt="" class="player-robot-icon" style="display: none;">
+            <div class="player-info-content">
+                <div id="player-a-name"></div>
+                <div id="player-a-health-bar" class="health-bar">
+                    <div id="player-a-health-fill" class="health-fill"></div>
+                    <span id="player-a-health-text" class="health-text"></span>
+                </div>
+            </div>
+        </div>
+        <div class="box player-info-box" id="player-b-info">
+            <img id="player-b-icon" src="" alt="" class="player-robot-icon" style="display: none;">
+            <div class="player-info-content">
+                <div id="player-b-name"></div>
+                <div id="player-b-health-bar" class="health-bar">
+                    <div id="player-b-health-fill" class="health-fill"></div>
+                    <span id="player-b-health-text" class="health-text"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Arena -->
+    <div class="game-container">
+        <div class="box arena-box">
+            <div id="arena-container">
+                <object id="arena-svg" type="image/svg+xml" data="/static/arena/arena.svg"></object>
+                <canvas id="grid-overlay"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
