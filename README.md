@@ -2,150 +2,11 @@
 
 Síťová tahová hra 1v1 - roboti v aréně bojují proti sobě.
 
-## Popis
+## 📋 Popis
 
 Robot Arena je webová hra pro 2 hráče, kde každý hráč ovládá robota v aréně. Hráči se pohybují po gridu, útočí na krátkou vzdálenost a musí se vyhýbat pastím, které se aktivují během hry. Hra nevyžaduje registraci - stačí zadat přezdívku a začít hrát.
 
-## Technologie
-
-- **Backend**: FastAPI (Python 3.11) + WebSocket
-- **Frontend**: SSR (Jinja2) + vanilla JavaScript
-- **Deployment**: Docker + Docker Compose
-- **CI/CD**: GitHub Actions → GHCR (multi-arch)
-
-## Herní mechanika
-
-- **Tahová hra**: Každý hráč má 3 akce (AP) na tah
-- **Pohyb**: 8-směr (šipky na klávesnici nebo kliknutí), 1 buňka = 1 akce
-- **Útok**: Pouze 4-směr (N/E/S/W), kontrola dosahu zbraně
-- **Pasti**: Definované v SVG, 2 fáze (arming → active), damage per tah
-- **Léčení**: 25% HP regenerace při pohybu na spawn pozici (pokud není protihráč v dosahu)
-- **Konec hry**: Robot s HP 0 prohrává
-
-## Spuštění
-
-### Lokálně s Docker Compose
-
-```bash
-docker compose up -d --build
-```
-
-Aplikace bude dostupná na `http://localhost`
-
-> **Poznámka**: Pro lokální vývoj se používá `build:`, pro produkci (po push na GitHub) se použije `image:` z GHCR.
-
-### Bez Dockeru
-
-```bash
-pip install -r requirements.txt
-cd app
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
-```
-
-Aplikace bude dostupná na `http://localhost:8000`
-
-## Struktura projektu
-
-```
-app/
-  main.py              # FastAPI aplikace + WebSocket + herní logika
-  settings.py          # Nastavení aplikace
-  templates/           # Jinja2 šablony
-    base.html          # Základní šablona
-    index.html         # Hlavní stránka (login, lobby, game)
-  static/
-    css/
-      style.css        # Styly aplikace
-    js/
-      app.js          # Hlavní logika (WebSocket, UI)
-      arena.js        # Renderování arény a gridu
-      audio.js        # Správa zvukových efektů
-    arena/
-      arena.svg       # SVG aréna s definicemi pastí a překážek
-    images/
-      robots/         # Ikony robotů (r1.png - r8.png)
-      pozadi.png      # Pozadí aplikace
-    sfx/              # Zvukové efekty
-      weapons/        # Zvuky zbraní
-      traps/          # Zvuky pastí
-      explosion/      # Zvuky výbuchů
-    favicon.ico       # Favicon
-    version.json      # Informace o verzi
-  data/
-    seed.json         # Seed data (8 robotů, 12 zbraní)
-```
-
-## Deployment
-
-### GitHub Actions CI/CD
-
-Při každém push do `main` branch se automaticky:
-- Vytvoří Docker image pro `linux/amd64` a `linux/arm64`
-- Pushne image do GHCR jako `ghcr.io/elvisek2020/web-robot_battle_arena:latest`
-- Vytvoří tag `sha-<commit-hash>` pro konkrétní verzi
-
-Workflow: `.github/workflows/docker.yml`
-
-### Nasazení na Synology (Container Manager)
-
-1. Vytvořte projekt v **Container Manager → Project**
-2. Použijte `docker-compose.yml` z tohoto repozitáře
-3. Upravte `docker-compose.yml` - odkomentujte `image:` a zakomentujte `build:`
-4. Image se automaticky stahuje z GHCR: `ghcr.io/elvisek2020/web-robot_battle_arena:latest`
-
-#### Update aplikace
-
-```bash
-docker compose pull
-docker compose up -d
-```
-
-#### Rollback na konkrétní verzi
-
-Upravte `docker-compose.yml`:
-```yaml
-image: ghcr.io/elvisek2020/web-robot_battle_arena:sha-<commit-hash>
-```
-
-Poté:
-```bash
-docker compose pull
-docker compose up -d
-```
-
-### Poznámky k deploymentu
-
-- Image je **public** na GHCR
-- Automatický build při push do `main` branch
-- Podporuje multi-arch: `linux/amd64` a `linux/arm64`
-- Healthcheck endpoint: `http://localhost:8000/health`
-- Interní port: `8000`, externí port: `80` (lze změnit v `docker-compose.yml`)
-
-## WebSocket protokol
-
-### Client → Server
-
-- `join`: Připojení do hry (přezdívka)
-- `reconnect`: Reconnect s tokenem (obnovení spojení)
-- `select_loadout`: Výběr robota a zbraně
-- `set_ready`: Označení jako připravený
-- `action_move`: Pohyb robota (x, y)
-- `action_attack`: Útok na soupeře (target_player_id)
-- `end_turn`: Ukončení tahu (automaticky po 3 AP)
-
-### Server → Client
-
-- `join_ok`: Úspěšné připojení (token, player_id)
-- `reconnect_ok`: Úspěšné obnovení spojení
-- `seed`: Seed data (roboti, zbraně)
-- `lobby_state`: Stav lobby (hráči, ready status)
-- `game_state`: Stav hry (pozice, HP, AP, turn)
-- `action_rejected`: Zamítnutá akce (důvod)
-- `traps_state`: Stav pastí (arming/active)
-- `game_over`: Konec hry (vítěz)
-- `error`: Chybová zpráva
-
-## Funkce
+## ✨ Funkce
 
 - ✅ Přihlášení bez registrace (přezdívka)
 - ✅ Lobby pro 2 hráče
@@ -161,44 +22,318 @@ docker compose up -d
 - ✅ Reconnect při ztrátě spojení
 - ✅ Healthcheck endpoint
 
-## Technické detaily
+## 📖 Použití
 
-- **Port**: Interně `8000`, externě `80` (lze změnit)
-- **Healthcheck**: `GET /health`
-- **Statické soubory**: Součástí Docker image
-- **Session storage**: Ukládá token, player_id, vybraný loadout
-- **Audio**: Vypnuté ve výchozím nastavení (`audio.js`)
+### Základní workflow
 
-## Vývoj
+1. **Připojení**: Zadejte svou přezdívku a klikněte na "Připojit se"
+2. **Lobby**: Počkejte na druhého hráče
+3. **Výběr loadoutu**: Vyberte si robota a zbraň
+4. **Připravenost**: Klikněte na "Připraven" když jste připraveni začít
+5. **Hraní**:
+   - Každý hráč má 3 akce (AP) na tah
+   - Pohybujte se pomocí šipek na klávesnici nebo kliknutím na grid
+   - Útočte na soupeře (pouze 4 směry: N/E/S/W)
+   - Vyhýbejte se pastím, které se aktivují během hry
+   - Léčte se na spawn pozici (25% HP regenerace)
+   - Cíl: Zničit soupeřova robota (snížit HP na 0)
 
-### Lokální vývoj
+### Herní mechanika
+
+- **Tahová hra**: Každý hráč má 3 akce (AP) na tah
+- **Pohyb**: 8-směr (šipky na klávesnici nebo kliknutí), 1 buňka = 1 akce
+- **Útok**: Pouze 4-směr (N/E/S/W), kontrola dosahu zbraně
+- **Pasti**: Definované v SVG, 2 fáze (arming → active), damage per tah
+- **Léčení**: 25% HP regenerace při pohybu na spawn pozici (pokud není protihráč v dosahu)
+- **Konec hry**: Robot s HP 0 prohrává
+
+## 🚀 Deployment
+
+### Předpoklady
+
+- Docker a Docker Compose
+
+### Docker Compose
+
+Aplikace je připravena pro spuštění pomocí Docker Compose. Soubor `docker-compose.yml` obsahuje veškerou potřebnou konfiguraci.
+
+#### Spuštění
 
 ```bash
-# Build a spuštění
 docker compose up -d --build
-
-# Logy
-docker compose logs -f
-
-# Restart
-docker compose restart
-
-# Zastavení
-docker compose down
 ```
 
-### Git workflow
+Aplikace bude dostupná na `http://localhost` (port 80 je mapován na port 8000 v kontejneru)
+
+#### Konfigurace
+
+Aplikace je konfigurována pomocí `docker-compose.yml`:
+
+```yaml
+services:
+  app:
+    # Pro vývoj použijte build:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # Pro produkci použijte image z GHCR:
+    # image: ghcr.io/elvisek2020/web-robot_battle_arena:latest
+    container_name: robot-arena
+    hostname: robot-arena
+    restart: unless-stopped
+    ports:
+      - "80:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=INFO  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+    # Pro produkci přidejte síťovou konfiguraci:
+    # networks:
+    #   core:
+    #     ipv4_address: 172.20.0.xxx
+
+# Pro produkci odkomentujte:
+# networks:
+#   core:
+#     external: true
+```
+
+#### Update aplikace
 
 ```bash
-# Commit změn
-git add .
-git commit -m "Popis změn"
-git push origin main
-
-# GitHub Actions automaticky vytvoří novou image
+docker compose pull
+docker compose up -d
 ```
 
-## Licence
+#### Rollback na konkrétní verzi
 
-Tento projekt je soukromý projekt.
+V `docker-compose.yml` změňte image tag:
 
+```yaml
+services:
+  app:
+    image: ghcr.io/elvisek2020/web-robot_battle_arena:sha-<commit-sha>
+```
+
+### GitHub a CI/CD
+
+#### Inicializace repozitáře
+
+1. **Vytvoření GitHub repozitáře**:
+
+   ```bash
+   # Vytvořte nový repozitář na GitHubu
+   # Název: web-robot_battle_arena
+   ```
+2. **Inicializace lokálního repozitáře**:
+
+   ```bash
+   git init
+   git add .
+   git commit -m "Initial commit"
+   git branch -M main
+   git remote add origin https://github.com/elvisek2020/web-robot_battle_arena.git
+   git push -u origin main
+   ```
+3. **Vytvoření GitHub Actions workflow**:
+
+   Vytvořte soubor `.github/workflows/docker.yml` - viz [příklad workflow](.github/workflows/docker.yml) v tomto repozitáři.
+4. **Nastavení viditelnosti image**:
+
+   - Po prvním buildu jděte na GitHub → Packages
+   - Najděte vytvořený package `web-robot_battle_arena`
+   - V Settings → Change visibility nastavte na **Public**
+
+#### Commitování změn a automatické buildy
+
+1. **Proveďte změny v kódu**
+2. **Commit a push**:
+
+   ```bash
+   git add .
+   git commit -m "Popis změn"
+   git push origin main
+   ```
+3. **Automatický build**:
+
+   - Po push do `main` branch se automaticky spustí GitHub Actions workflow
+   - Vytvoří se Docker image pro `linux/amd64` a `linux/arm64`
+   - Image se nahraje do GHCR
+   - Taguje se jako `latest` a `sha-<commit-sha>`
+4. **Sledování buildu**:
+
+   - GitHub → Actions → zobrazí se běžící workflow
+   - Po dokončení je image dostupná na `ghcr.io/elvisek2020/web-robot_battle_arena:latest`
+
+#### GitHub Container Registry (GHCR)
+
+Aplikace je dostupná jako Docker image z GitHub Container Registry:
+
+- **Latest**: `ghcr.io/elvisek2020/web-robot_battle_arena:latest`
+- **Konkrétní commit**: `ghcr.io/elvisek2020/web-robot_battle_arena:sha-<commit-sha>`
+
+Image je **veřejný** (public), takže není potřeba autentizace pro pull.
+
+---
+
+## 🔧 Technická dokumentace
+
+### 🏗️ Architektura
+
+Aplikace je postavena jako **real-time tahová hra** s následujícími charakteristikami:
+
+- **1v1 hra**: Dva hráči hrají proti sobě
+- **WebSocket komunikace**: Veškerá real-time komunikace probíhá přes WebSocket
+- **SSR (Server-Side Rendering)**: Používá Jinja2 šablony pro renderování
+- **State-less frontend**: Frontend pouze zobrazuje stav přijatý ze serveru
+- **Server-side validace**: Veškerá herní logika a validace probíhá na serveru
+- **In-memory storage**: Všechna data jsou uložena v RAM (žádná databáze)
+- **SVG aréna**: Aréna je definována v SVG s pastmi a překážkami
+
+### Technický stack
+
+**Backend:**
+
+- FastAPI (Python 3.11+)
+- WebSockets pro real-time komunikaci
+- Uvicorn jako ASGI server
+- Jinja2 pro server-side rendering
+- Python logging s konfigurovatelnou úrovní
+
+**Frontend:**
+
+- Vanilla JavaScript (ES6+)
+- HTML5 + CSS3
+- WebSocket API
+- SVG pro vizualizaci arény
+
+**Deployment:**
+
+- Docker
+- Docker Compose
+- GitHub Actions CI/CD
+
+### 📁 Struktura projektu
+
+```
+web-robot_battle_arena/
+├── app/
+│   ├── main.py              # FastAPI aplikace + WebSocket + herní logika
+│   ├── settings.py          # Nastavení aplikace
+│   ├── templates/           # Jinja2 šablony
+│   │   ├── base.html        # Základní šablona
+│   │   └── index.html       # Hlavní stránka (login, lobby, game)
+│   ├── static/
+│   │   ├── css/
+│   │   │   └── style.css    # Styly aplikace
+│   │   ├── js/
+│   │   │   ├── app.js        # Hlavní logika (WebSocket, UI)
+│   │   │   ├── arena.js      # Renderování arény a gridu
+│   │   │   └── audio.js      # Správa zvukových efektů
+│   │   ├── arena/
+│   │   │   └── arena.svg     # SVG aréna s definicemi pastí a překážek
+│   │   ├── images/
+│   │   │   ├── robots/       # Ikony robotů (r1.png - r8.png)
+│   │   │   └── pozadi.png    # Pozadí aplikace
+│   │   ├── sfx/              # Zvukové efekty
+│   │   │   ├── weapons/       # Zvuky zbraní
+│   │   │   ├── traps/         # Zvuky pastí
+│   │   │   └── explosion/     # Zvuky výbuchů
+│   │   ├── favicon.ico       # Favicon
+│   │   └── version.json       # Informace o verzi
+│   └── data/
+│       └── seed.json          # Seed data (8 robotů, 12 zbraní)
+├── requirements.txt          # Python závislosti
+├── Dockerfile                # Docker image definice
+├── docker-compose.yml        # Docker Compose konfigurace
+└── README.md                 # Tato dokumentace
+```
+
+### 🔧 API dokumentace
+
+#### WebSocket endpoint
+
+**URL**: `ws://localhost/ws` (nebo `ws://localhost:8000/ws` při lokálním vývoji)
+
+[Detailní popis API zpráv najdete v dokumentaci - `_docs/` nebo v kódu aplikace]
+
+### 💻 Vývoj
+
+#### Přidání nových funkcí
+
+1. **Backend změny**:
+
+   - Herní logika: `app/main.py`
+   - Nastavení: `app/settings.py`
+   - Datové modely: v `app/main.py`
+2. **Frontend změny**:
+
+   - UI logika: `app/static/js/app.js`
+   - Aréna rendering: `app/static/js/arena.js`
+   - HTML struktura: `app/templates/index.html`
+   - Styly: `app/static/css/style.css` (používejte box-style komponenty)
+3. **SVG aréna**:
+
+   - `app/static/arena/arena.svg` - definice pastí a překážek
+
+#### Testování
+
+- **Multiplayer**: Otevřete aplikaci ve dvou prohlížečích nebo záložkách
+- **Logy**: Sledujte serverové logy pomocí `docker logs robot-arena -f`
+
+#### Debugging
+
+- Nastavte `LOG_LEVEL=DEBUG` v `docker-compose.yml` pro detailní logy
+- Server loguje všechny důležité události s timestampy
+- Frontend loguje chyby do konzole prohlížeče
+
+#### Úroveň logování (`LOG_LEVEL`)
+
+- `DEBUG` - zobrazí všechny logy včetně detailních debug informací (vývoj)
+- `INFO` - zobrazí informační logy (výchozí, vhodné pro testování)
+- `WARNING` - zobrazí pouze varování a chyby (doporučeno pro produkci)
+- `ERROR` - zobrazí pouze chyby (minimální logování)
+- `CRITICAL` - zobrazí pouze kritické chyby
+
+Pro produkci doporučujeme nastavit `LOG_LEVEL=WARNING` nebo `LOG_LEVEL=ERROR`.
+
+### 🎨 UI/UX
+
+Aplikace používá **box-style komponenty** pro konzistentní vzhled:
+
+- Všechny komponenty mají boxový vzhled s rámečky
+- Konzistentní barvy a rozestupy
+- Responzivní design
+- SVG vizualizace arény s gridem
+- Optimistic UI s rollbackem při chybách
+- Zvukové efekty (vypnuté ve výchozím nastavení)
+
+### 📝 Historie změn
+
+#### v.20251229.1150
+
+- ✅ Základní implementace tahové hry Robot Arena
+- ✅ WebSocket real-time komunikace
+- ✅ Lobby systém s ready mechanikou
+- ✅ Výběr robota a zbraně
+- ✅ Herní logika: pohyb, útok, pasti, léčení
+- ✅ SVG aréna s definicemi pastí
+- ✅ Reconnect funkcionalita
+- ✅ Docker podpora
+- ✅ GitHub Actions CI/CD
+
+### 🐛 Známé problémy
+
+- Všechny data jsou uložena pouze v RAM (žádná persistence)
+- Zvukové efekty jsou vypnuté ve výchozím nastavení (`audio.js`)
+- Healthcheck endpoint: `http://localhost:8000/health`
+
+### 📚 Další zdroje
+
+- [FastAPI dokumentace](https://fastapi.tiangolo.com/)
+- [WebSocket API](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket)
+- [Docker dokumentace](https://docs.docker.com/)
+- [SVG dokumentace](https://developer.mozilla.org/en-US/docs/Web/SVG)
+
+## 📄 Licence
+
+Tento projekt je vytvořen pro vzdělávací účely.
