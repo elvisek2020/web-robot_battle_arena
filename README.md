@@ -2,6 +2,8 @@
 
 Síťová tahová hra 1v1 - roboti v aréně bojují proti sobě.
 
+![Robot Arena Screenshot](images/screen-robot.png)
+
 ## 📋 Popis
 
 Robot Arena je webová hra pro 2 hráče, kde každý hráč ovládá robota v aréně. Hráči se pohybují po gridu, útočí na krátkou vzdálenost a musí se vyhýbat pastím, které se aktivují během hry. Hra nevyžaduje registraci - stačí zadat přezdívku a začít hrát.
@@ -114,57 +116,7 @@ services:
     image: ghcr.io/elvisek2020/web-robot_battle_arena:sha-<commit-sha>
 ```
 
-### GitHub a CI/CD
-
-#### Inicializace repozitáře
-
-1. **Vytvoření GitHub repozitáře**:
-
-   ```bash
-   # Vytvořte nový repozitář na GitHubu
-   # Název: web-robot_battle_arena
-   ```
-2. **Inicializace lokálního repozitáře**:
-
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit"
-   git branch -M main
-   git remote add origin https://github.com/elvisek2020/web-robot_battle_arena.git
-   git push -u origin main
-   ```
-3. **Vytvoření GitHub Actions workflow**:
-
-   Vytvořte soubor `.github/workflows/docker.yml` - viz [příklad workflow](.github/workflows/docker.yml) v tomto repozitáři.
-4. **Nastavení viditelnosti image**:
-
-   - Po prvním buildu jděte na GitHub → Packages
-   - Najděte vytvořený package `web-robot_battle_arena`
-   - V Settings → Change visibility nastavte na **Public**
-
-#### Commitování změn a automatické buildy
-
-1. **Proveďte změny v kódu**
-2. **Commit a push**:
-
-   ```bash
-   git add .
-   git commit -m "Popis změn"
-   git push origin main
-   ```
-3. **Automatický build**:
-
-   - Po push do `main` branch se automaticky spustí GitHub Actions workflow
-   - Vytvoří se Docker image pro `linux/amd64` a `linux/arm64`
-   - Image se nahraje do GHCR
-   - Taguje se jako `latest` a `sha-<commit-sha>`
-4. **Sledování buildu**:
-
-   - GitHub → Actions → zobrazí se běžící workflow
-   - Po dokončení je image dostupná na `ghcr.io/elvisek2020/web-robot_battle_arena:latest`
-
-#### GitHub Container Registry (GHCR)
+### GitHub Container Registry (GHCR)
 
 Aplikace je dostupná jako Docker image z GitHub Container Registry:
 
@@ -306,26 +258,6 @@ Aplikace používá **box-style komponenty** pro konzistentní vzhled:
 - SVG vizualizace arény s gridem
 - Optimistic UI s rollbackem při chybách
 - Zvukové efekty (vypnuté ve výchozím nastavení)
-
-### 📝 Historie změn
-
-#### v.20251229.1150
-
-- ✅ Základní implementace tahové hry Robot Arena
-- ✅ WebSocket real-time komunikace
-- ✅ Lobby systém s ready mechanikou
-- ✅ Výběr robota a zbraně
-- ✅ Herní logika: pohyb, útok, pasti, léčení
-- ✅ SVG aréna s definicemi pastí
-- ✅ Reconnect funkcionalita
-- ✅ Docker podpora
-- ✅ GitHub Actions CI/CD
-
-### 🐛 Známé problémy
-
-- Všechny data jsou uložena pouze v RAM (žádná persistence)
-- Zvukové efekty jsou vypnuté ve výchozím nastavení (`audio.js`)
-- Healthcheck endpoint: `http://localhost:8000/health`
 
 ### 📚 Další zdroje
 
